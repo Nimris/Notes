@@ -1,0 +1,21 @@
+{% extends "noteapp/base.html" %}
+{% load extract_tags %}
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div>
+        <label>Select Tags:</label>
+        <div style="padding: 10px">
+            <label> Select tags:
+                <select name="tags" multiple="multiple">
+                    {% for tag in tags %}
+                    <option value="{{tag.name}}">{{tag.name}}</option>
+                    {% endfor %}
+                </select>
+            </label>
+        </div>
+    </div>
+    <button type="submit">Save</button>
+</form>
+{% endblock %}

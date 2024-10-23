@@ -1,0 +1,17 @@
+{% extends "noteapp/base.html" %}
+{% load extract_tags %}
+{% block content %}
+<h1>Your Tags</h1>
+<ul>
+    {% for tag in tags %}
+        <li>
+            {{ tag.name }}
+            <a href="{% url 'noteapp:edit_tag' tag.id %}">Edit</a> |
+            <a href="{% url 'noteapp:delete_tag' tag.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No tags found.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'noteapp:tag' %}" role="button">Create New Tag</a>
+{% endblock %}

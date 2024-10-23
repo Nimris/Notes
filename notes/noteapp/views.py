@@ -54,9 +54,11 @@ def detail(request, note_id):
 
 @login_required
 def set_done(request, note_id):
-    Note.objects.filter(pk=note_id, user=request.user).update(done=True)
+    note = get_object_or_404(Note, pk=note_id, user=request.user)
+    note.done = not note.done
+    note.save()
     return redirect(to='noteapp:main')
-
+     
 
 @login_required
 def delete_note(request, note_id):
@@ -96,3 +98,45 @@ def edit_note(request, note_id):
     return render(request, 'noteapp/edit_note.html', {
         'form': form, 'tags': tags, 'note': note
     })
+    
+@login_required
+def all_done(request):
+    notes = Note.objects.filter(user=request.user, done=True).all()
+    return render(request, 'noteapp/index.html', {"notes": notes})
+
+
+@login_required
+def all_notdone(request):
+    notes = Note.objects.filter(user=request.user, done=False).all()
+    return render(request, 'noteapp/index.html', {"notes": notes})
+
+
+@login_required
+def all_notes(request):
+    return redirect(to='noteapp:main')
+
+
+@login_required
+def all_tags(request):
+    tags = Tag.objects.filter(user=request.user).all()
+    return render(request, 'noteapp/tags.html', {"tags": tags})
+
+
+@login_required
+def edit_tag(request, tag_id):
+    tag = get_object_or_404(Tag, id=tag_id, user=request.user)
+    if request.method == 'POST':
+        form = TagForm(request.POST, instance=tag)
+        if form.is_valid():
+            form.save()
+            return redirect('noteapp:all_tags')
+    else:
+        form = TagForm(instance=tag)
+    return render(request, 'noteapp/edit_tag.html', {'form': form})
+
+
+@login_required
+def delete_tag(request, tag_id):
+    tag = get_object_or_404(Tag, id=tag_id, user=request.user)
+    tag.delete()
+    return redirect('noteapp:all_tags')

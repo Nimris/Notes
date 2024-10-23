@@ -1,0 +1,11 @@
+{% extends "noteapp/base.html" %}
+{% load extract_tags %}
+{% block content %}
+<h1>Edit Tag</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+<a href="{% url 'noteapp:all_tags' %}">Cancel</a>
+{% endblock %}

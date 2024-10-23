@@ -12,6 +12,10 @@
         <ul>
             <li><a href="{% url 'noteapp:note' %}" role="button">Add note</a></li>
             <li><a href="{% url 'noteapp:tag' %}" role="button">Add Tag</a></li>
+            <li><a href="{% url 'noteapp:all_done' %}" role="button">Show Done</a></li>
+            <li><a href="{% url 'noteapp:all_notdone' %}" role="button">Show Not Done</a></li>
+            <li><a href="{% url 'noteapp:all_notes' %}" role="button">Show All</a></li>
+            <li><a href="{% url 'noteapp:all_tags' %}" role="button">Show Tags</a></li>
         </ul>
         <ul>
             <li>Welcome <b>{{ user.username }}!</b></li>
@@ -36,6 +40,7 @@
             <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
             {% else %}
             <a href="{% url 'noteapp:detail' note.id %}" role="button" class="secondary"><s>{{ note.name }}</s></a>
+            <a href="{% url 'noteapp:set_done' note.id %}" role="button"> Mark Undone </a> 
             <a href="{% url 'noteapp:delete' note.id %}" role="button" class="contrast"> Delete note </a>
             {% endif %}
         </li>
